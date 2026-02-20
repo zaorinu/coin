@@ -32,7 +32,8 @@ jobs:
 
           # Build OpenAPI HTML using ReDoc (if present)
           if [ -f docs/openapi.yaml ]; then
-            npx -y redoc-cli@^0.15.0 bundle docs/openapi.yaml -o www/docs/openapi.html
+            # Use flexible npx invocation (no strict version pin) to avoid ETARGET failures
+            npx -y redoc-cli bundle docs/openapi.yaml -o www/docs/openapi.html
           fi
 
           # Convert API.md to HTML (if present)
