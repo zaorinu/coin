@@ -24,8 +24,13 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Build compiled docs (ReDoc + marked)
+      - name: Generate OpenAPI (from code) and build compiled docs (ReDoc + marked)
         run: |
+          set -e
+          # generate openapi.yaml from code and schemas
+          npm ci --no-audit --no-fund || true
+          npm run docs:generate || true
+          
           set -e
           rm -rf www || true
           mkdir -p www/docs
