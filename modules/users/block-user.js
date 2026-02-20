@@ -4,16 +4,16 @@ module.exports = (req, res) => {
     const userId = req.params.id;
     const { blocked } = req.body;
 
-    if (blocked !== 0 && blocked !== 1) return res.status(400).json({ error: "Valor inválido, use 0 ou 1" });
+    if (blocked !== 0 && blocked !== 1) return res.status(400).json({ error: "Invalid value, use 0 or 1" });
 
     db.run(
         `UPDATE users SET blocked = ? WHERE id = ?`,
         [blocked, userId],
         function(err) {
             if (err) return res.status(500).json({ error: err.message });
-            if (this.changes === 0) return res.status(404).json({ error: "Usuário não encontrado" });
+            if (this.changes === 0) return res.status(404).json({ error: "User not found" });
 
-            res.json({ message: `Usuário ${blocked ? 'bloqueado' : 'ativado'}` });
+            res.json({ message: `User ${blocked ? 'blocked' : 'activated'}` });
         }
     );
 };

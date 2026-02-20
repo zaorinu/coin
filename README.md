@@ -1,11 +1,17 @@
 # coin
-Coin é um sistema fictício de operações bancárias feito para gastar o meu tempo com algo produtivo
+Coin is a fictional banking system created to spend my time on something productive.
 
-Para hospedar em sua máquina, simplesmente execute:
+To host it on your machine, simply run:
 
 ```javascript
 npm i
 node server.js
 ```
 
-Contribuições serão aceitas ao decorrer do andamento do projeto
+If you want to test the project and make changes auto-update on your project, run as a dev
+
+```javascript
+npm run dev
+```
+
+Contributions will be accepted throughout the project's development.

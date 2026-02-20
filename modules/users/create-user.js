@@ -1,21 +1,21 @@
 const db = require('../../utils/database');
 
 module.exports = (req, res) => {
-    const { nome } = req.body;
+    const { name } = req.body;
 
-    if (!nome)
-        return res.status(400).json({ error: "Nome é obrigatório" });
+    if (!name)
+        return res.status(400).json({ error: "Name is required" });
 
     db.run(
-        `INSERT INTO users (nome) VALUES (?)`,
-        [nome],
+        `INSERT INTO users (name) VALUES (?)`,
+        [name],
         function(err) {
             if (err) return res.status(500).json({ error: err.message });
 
             res.json({
                 id: this.lastID,
-                nome,
-                saldo: 0
+                name,
+                balance: 0
             });
         }
     );

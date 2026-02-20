@@ -15,13 +15,13 @@ app.get('/debug/db', (req, res) => {
         db.all(`SELECT * FROM transactions`, [], (err2, txs) => {
             if (err2) return res.status(500).send(err2.message);
             res.send(`
-                <h2>Usuários</h2>
+                <h2>Users</h2>
                 <pre>${JSON.stringify(users, null, 2)}</pre>
-                <h2>Transações</h2>
+                <h2>Transactions</h2>
                 <pre>${JSON.stringify(txs, null, 2)}</pre>
             `);
         });
     });
 });
 
-app.listen(3000, () => console.log("🔥 API rodando em http://localhost:3000"));
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));

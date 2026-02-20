@@ -7,7 +7,7 @@ module.exports = (req, res) => {
         (err, user) => {
             if (err) return res.status(500).json({ error: err.message });
             if (!user)
-                return res.status(404).json({ error: "Usuário não encontrado" });
+                return res.status(404).json({ error: "User not found" });
 
             res.json(user);
         }

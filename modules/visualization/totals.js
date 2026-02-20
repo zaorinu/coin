@@ -5,8 +5,8 @@ module.exports = (req, res) => {
 
     db.get(
         `SELECT
-            COALESCE(SUM(CASE WHEN to_user = ? THEN amount ELSE 0 END), 0) AS totalRecebido,
-            COALESCE(SUM(CASE WHEN from_user = ? THEN amount ELSE 0 END), 0) AS totalEnviado
+            COALESCE(SUM(CASE WHEN to_user = ? THEN amount ELSE 0 END), 0) AS received,
+            COALESCE(SUM(CASE WHEN from_user = ? THEN amount ELSE 0 END), 0) AS sent
          FROM transactions`,
         [userId, userId],
         (err, totals) => {

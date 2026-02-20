@@ -1,3 +1,8 @@
+# Modules installed by npm
 node_modules/
-economia.db
+
+# .dev folder, used on tests / development
 .dev/
+
+# Any database files
+*.db

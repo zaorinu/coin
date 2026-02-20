@@ -4,19 +4,19 @@ module.exports = (req, res) => {
     const { from, to, amount } = req.body;
 
     if (!from || !to || amount <= 0)
-        return res.status(400).json({ error: "Dados inválidos" });
+        return res.status(400).json({ error: "Invalid data" });
 
     db.serialize(() => {
         db.run("BEGIN TRANSACTION");
 
-        db.get(`SELECT saldo FROM users WHERE id = ?`, [from], (err, sender) => {
-            if (!sender || sender.saldo < amount) {
+        db.get(`SELECT balance FROM users WHERE id = ?`, [from], (err, sender) => {
+            if (!sender || sender.balance < amount) {
                 db.run("ROLLBACK");
-                return res.status(400).json({ error: "Saldo insuficiente" });
+                return res.status(400).json({ error: "Insufficient balance" });
             }
 
-            db.run(`UPDATE users SET saldo = saldo - ? WHERE id = ?`, [amount, from]);
-            db.run(`UPDATE users SET saldo = saldo + ? WHERE id = ?`, [amount, to]);
+            db.run(`UPDATE users SET balance = balance - ? WHERE id = ?`, [amount, from]);
+            db.run(`UPDATE users SET balance = balance + ? WHERE id = ?`, [amount, to]);
 
             db.run(
                 `INSERT INTO transactions 
@@ -26,7 +26,7 @@ module.exports = (req, res) => {
             );
 
             db.run("COMMIT");
-            res.json({ message: "Transferência realizada" });
+            res.json({ message: "Transfer completed" });
         });
     });
 };

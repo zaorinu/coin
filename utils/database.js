@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('./economia.db');
+const db = new sqlite3.Database('./coins.app.db');
 
 db.serialize(() => {
     db.run("PRAGMA foreign_keys = ON");
@@ -8,8 +8,8 @@ db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            saldo REAL NOT NULL DEFAULT 0,
+            name TEXT NOT NULL,
+            balance REAL NOT NULL DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);

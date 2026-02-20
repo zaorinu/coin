@@ -2,17 +2,17 @@ const db = require('../../utils/database');
 
 module.exports = (req, res) => {
     const { userId, amount } = req.body;
-    if (!userId || amount <= 0) return res.status(400).json({ error: "Dados inválidos" });
+    if (!userId || amount <= 0) return res.status(400).json({ error: "Invalid data" });
 
     db.serialize(() => {
         db.run("BEGIN TRANSACTION");
         db.run(
-            `UPDATE users SET saldo = saldo + ? WHERE id = ?`,
+            `UPDATE users SET balance = balance + ? WHERE id = ?`,
             [amount, userId],
             function(err) {
                 if (err || this.changes === 0) {
                     db.run("ROLLBACK");
-                    return res.status(400).json({ error: "Usuário não encontrado" });
+                    return res.status(400).json({ error: "User not found" });
                 }
 
                 db.run(
@@ -21,7 +21,7 @@ module.exports = (req, res) => {
                 );
 
                 db.run("COMMIT");
-                res.json({ message: "Depósito realizado" });
+                res.json({ message: "Deposit completed" });
             }
         );
     });
