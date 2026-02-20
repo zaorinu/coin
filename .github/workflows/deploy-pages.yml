@@ -1,4 +1,4 @@
-name: Deploy static content to Pages
+name: Deploy compiled docs to Pages
 
 on:
   push:
@@ -12,73 +12,62 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Setup Node (for link checking)
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Check Markdown links
+      - name: Build compiled docs (ReDoc + marked)
         run: |
-          npm init -y
-          npm install markdown-link-check@^3 --no-audit --no-fund
-          npx markdown-link-check "docs/**/*.md" -q || true
-        # Note: link checker is informative; it does not currently fail the workflow by default.
-
-      - name: Prepare docs site (Docsify)
-        run: |
+          set -e
           rm -rf www || true
           mkdir -p www/docs
-          # copy repo docs into site folder
-          if [ -d docs ]; then cp -R docs/* www/docs/; fi
 
-          # Create a Docsify-powered index at /docs/index.html so the docs are served at /docs
-          cat > www/docs/index.html <<'HTML'
+          # Build OpenAPI HTML using ReDoc (if present)
+          if [ -f docs/openapi.yaml ]; then
+            npx -y redoc-cli@^0.15.0 bundle docs/openapi.yaml -o www/docs/openapi.html
+          fi
+
+          # Convert API.md to HTML (if present)
+          if [ -f docs/API.md ]; then
+            npx -y marked@^5.0.0 docs/API.md -o www/docs/API.html
+          fi
+
+          # Copy other docs assets (images, raw markdown) so they are available
+          cp -R docs/* www/docs/ || true
+
+          # Minimal site index linking to compiled docs
+          cat > www/index.html <<'HTML'
           <!doctype html>
-          <html>
-            <head>
-              <meta charset="utf-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1">
-              <title>Project Docs</title>
-              <link rel="stylesheet" href="https://unpkg.com/docsify/lib/themes/vue.css">
-            </head>
-            <body>
-              <div id="app"></div>
-              <script>
-                window.$docsify = {
-                  name: 'Project Docs',
-                  repo: '',
-                  loadSidebar: true,
-                  subMaxLevel: 2,
-                }
-              </script>
-              <script src="https://unpkg.com/docsify/lib/docsify.min.js"></script>
-            </body>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width,initial-scale=1" />
+            <title>Project Docs</title>
+            <style>
+              body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:40px;color:#111}
+              a{color:#0b63d6}
+            </style>
+          </head>
+          <body>
+            <h1>Project Documentation</h1>
+            <ul>
+              <li><a href="/docs/openapi.html">OpenAPI (ReDoc)</a></li>
+              <li><a href="/docs/API.html">API Overview (HTML)</a></li>
+            </ul>
+          </body>
           </html>
           HTML
 
-          # If there is a README.md at docs/ root, make it the index for the docsify app
-          if [ -f www/docs/README.md ]; then cp www/docs/README.md www/docs/_sidebar.md || true; fi
-
-      - name: Upload CNAME to folder
-        run: |
-          echo "zaorinu.is-a.dev" > www/CNAME || true
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
