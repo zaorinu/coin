@@ -1,4 +1,4 @@
-const db = require('../../database');
+const db = require('c');
 
 module.exports = (req, res) => {
     const { userId, amount } = req.body;

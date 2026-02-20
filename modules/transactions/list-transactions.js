@@ -1,4 +1,4 @@
-const db = require('../../database');
+const db = require('../../utils/database');
 
 module.exports = (req, res) => {
     db.all(`SELECT * FROM transactions ORDER BY created_at DESC`, [], (err, rows) => {
