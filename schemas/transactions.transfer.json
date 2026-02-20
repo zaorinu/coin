@@ -1,0 +1,11 @@
+{
+  "$id": "#/schemas/transactions.transfer",
+  "type": "object",
+  "required": ["from", "to", "amount"],
+  "properties": {
+    "from": { "type": "integer", "minimum": 1 },
+    "to": { "type": "integer", "minimum": 1 },
+    "amount": { "type": "number", "exclusiveMinimum": 0 }
+  },
+  "additionalProperties": false
+}

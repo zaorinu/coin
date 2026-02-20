@@ -9,7 +9,7 @@ module.exports = (req, res) => {
             if (!row)
                 return res.status(404).json({ error: "User not found" });
 
-            res.json({ balance: row.balance });
+            res.status(200).json({ balance: row.balance });
         }
     );
 };

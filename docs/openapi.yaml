@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Coin API
+  version: 1.0.0
+  description: Minimal API for users and transactions. Responses use a universal wrapper `{ success, data, error }`.
+servers:
+  - url: / 
+paths:
+  /users:
+    get:
+      summary: List users
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create user
+      requestBody:
+        required: true
+      responses:
+        '201':
+          description: Created
+  /users/{id}:
+    get:
+      summary: Get user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /transactions:
+    get:
+      summary: List transactions
+    post:
+      summary: Create transaction (deposit/withdraw/transfer)
+  /visualization/audit:
+    get:
+      summary: Audit report

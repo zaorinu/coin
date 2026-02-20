@@ -1,0 +1,9 @@
+{
+  "$id": "#/schemas/users.block",
+  "type": "object",
+  "required": ["blocked"],
+  "properties": {
+    "blocked": { "type": "integer", "enum": [0,1] }
+  },
+  "additionalProperties": false
+}

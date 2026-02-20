@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('./coins.app.db');
+const db = new sqlite3.Database('./coin.app.db');
 
 db.serialize(() => {
     db.run("PRAGMA foreign_keys = ON");

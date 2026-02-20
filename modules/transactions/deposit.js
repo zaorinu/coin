@@ -12,7 +12,7 @@ module.exports = (req, res) => {
             function(err) {
                 if (err || this.changes === 0) {
                     db.run("ROLLBACK");
-                    return res.status(400).json({ error: "User not found" });
+                    return res.status(404).json({ error: "User not found" });
                 }
 
                 db.run(
@@ -21,7 +21,7 @@ module.exports = (req, res) => {
                 );
 
                 db.run("COMMIT");
-                res.json({ message: "Deposit completed" });
+                res.status(201).json({ message: "Deposit completed" });
             }
         );
     });

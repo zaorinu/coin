@@ -1,17 +1,37 @@
 # coin
 Coin is a fictional banking system created to spend my time on something productive.
 
-To host it on your machine, simply run:
+This repository provides a small API for user and transaction management. It includes a minimal SQLite-backed server and simple visualization endpoints.
 
-```javascript
-npm i
-node server.js
+Quick start
+
+1. Install dependencies:
+
+```bash
+npm install
 ```
 
-If you want to test the project and make changes auto-update on your project, run as a dev
+2. Run in development mode (auto-reload):
 
-```javascript
+```bash
 npm run dev
 ```
 
-Contributions will be accepted throughout the project's development.
+3. Run in production mode:
+
+```bash
+npm start
+# or
+npm run start:prod
+```
+
+API docs
+
+OpenAPI and a human-readable API summary are available at `/docs` once the server is running. For example: `http://localhost:3000/docs/API.md`.
+
+Notes
+
+- The server includes basic production hardening (Helmet, CORS, rate limiting, request logging).
+- All JSON responses follow a universal format: `{ success: boolean, data?: any, error?: any }`.
+
+Contributions are welcome via issues and pull requests.

@@ -12,7 +12,7 @@ module.exports = (req, res) => {
         function(err) {
             if (err) return res.status(500).json({ error: err.message });
 
-            res.json({
+            res.status(201).json({
                 id: this.lastID,
                 name,
                 balance: 0

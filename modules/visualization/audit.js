@@ -11,7 +11,7 @@ module.exports = (req, res) => {
         [],
         (err, rows) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json(rows);
+            res.status(200).json(rows);
         }
     );
 };

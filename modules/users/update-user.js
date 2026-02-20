@@ -15,7 +15,7 @@ module.exports = (req, res) => {
 
             db.get(`SELECT * FROM users WHERE id = ?`, [userId], (err2, user) => {
                 if (err2) return res.status(500).json({ error: err2.message });
-                res.json({ message: "User updated", user });
+                res.status(200).json({ message: "User updated", user });
             });
         }
     );

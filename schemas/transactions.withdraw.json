@@ -1,0 +1,10 @@
+{
+  "$id": "#/schemas/transactions.withdraw",
+  "type": "object",
+  "required": ["userId", "amount"],
+  "properties": {
+    "userId": { "type": "integer", "minimum": 1 },
+    "amount": { "type": "number", "exclusiveMinimum": 0 }
+  },
+  "additionalProperties": false
+}

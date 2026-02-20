@@ -8,7 +8,7 @@ module.exports = (req, res) => {
         [req.params.id, req.params.id],
         (err, rows) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json(rows);
+            res.status(200).json(rows);
         }
     );
 };

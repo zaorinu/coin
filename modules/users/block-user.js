@@ -13,7 +13,7 @@ module.exports = (req, res) => {
             if (err) return res.status(500).json({ error: err.message });
             if (this.changes === 0) return res.status(404).json({ error: "User not found" });
 
-            res.json({ message: `User ${blocked ? 'blocked' : 'activated'}` });
+            res.status(200).json({ message: `User ${blocked ? 'blocked' : 'activated'}` });
         }
     );
 };

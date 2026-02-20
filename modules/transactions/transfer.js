@@ -26,7 +26,7 @@ module.exports = (req, res) => {
             );
 
             db.run("COMMIT");
-            res.json({ message: "Transfer completed" });
+            res.status(201).json({ message: "Transfer completed" });
         });
     });
 };
