@@ -37,7 +37,7 @@ jobs:
       - name: Check Markdown links
         run: |
           npm init -y
-          npm install markdown-link-check@4 --no-audit --no-fund
+          npm install markdown-link-check@^3 --no-audit --no-fund
           npx markdown-link-check "docs/**/*.md" -q || true
         # Note: link checker is informative; it does not currently fail the workflow by default.
 
